@@ -1,11 +1,12 @@
 "use client";
-import dotenv from 'dotenv';
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
-dotenv.config();
+import { fetchItm,updateBookmarks,CreateUser,deleteUser } from './backend/DataBaseFunctions.js';
+
 function bookmarks() {
   const bookmarkref = useRef(null);
   const [response, setResponse] = useState([]);
+  const url="https://7sfloc4omk.execute-api.us-east-1.amazonaws.com/default/";
 
   useEffect(() => {
       const response = new BroadcastChannel("bookmarks_channel");
@@ -15,28 +16,11 @@ function bookmarks() {
         };
   },[]);
 
-  const updateBookmarks = (bookmark) => {
-    const channel = new BroadcastChannel("bookmarks_channel");
-    channel.postMessage({ bookmark });
-    console.log("Bookmarks updated:", bookmark);
-  };
-
-  const fetchItm = () => {
-    console.log(process.env.NEXT_PUBLIC_URL);
-    fetch(`${process.env.NEXT_PUBLIC_URL}?email=${encodeURIComponent("test@test.com")}`,
-      { method: 'GET',}
-      ).then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    }).catch((error) => {
-      console.error('Error fetching data:', error);
-    });
-  }
   return (
     <div>
       <input type="text" name='bookmark-input' ref={bookmarkref} className='border'/>
       <input type="button" value="add bookmark" className='border-2 hover:cursor-pointer' onClick={() => updateBookmarks(bookmarkref.current.value)} />
-      <input type="button" value="fetch" className='border' onClick={()=>{fetchItm()}} />
+      <input type="button" value="fetch" className='border' onClick={()=>{CreateUser("himanshu123@gmail.com","himanshu",[])}} />
       <p>{response}</p>
     </div>
   )
