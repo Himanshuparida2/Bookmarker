@@ -1,7 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 
-const Supa_URL = "https://wprwsiexkokqvlnwlxoq.supabase.co";
-const Supa_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwcndzaWV4a29rcXZsbndseG9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMDMzNTUsImV4cCI6MjA4NjU3OTM1NX0.8RsGyMUBvhU0JO5TRoZknkgfsjd0WuqltFF8K508Olc";
+const Supa_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const Supa_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+
+if (!Supa_URL || !Supa_KEY) {
+  throw new Error("Supabase URL or Key is not defined in environment variables.");
+}
 
 export const supabase = createClient(
   Supa_URL,
@@ -22,7 +26,7 @@ const fetchItm = async (email) => {
     return data;
 
   } catch (err) {
-    console.error("Error fetching data:", err);
+    console.log("Error fetching data:", err);
   }
 };
 
@@ -62,14 +66,36 @@ const fetchItm = async (email) => {
     }
   }
 
-  const CreateUser = async (email,name,bookmark) => {
+  const checkUserExists = async (email) => {
+    try {
+      const { data, error } = await supabase
+        .from("Bookmarker")
+        .select("email")
+        .eq("email", email)
+        .single();
+  
+      if (error && error.code !== "PGRST116") throw error;
+  
+      return !!data;
+  
+    } catch (err) {
+      console.error("Error checking user:", err);
+      return false;
+    }
+  };
+
+  const CreateUser = async (email,name) => {
+    if(checkUserExists(email)) {
+      console.log("User already exists");
+      return fetchItm(email);
+    }
     try {
       const { data, error } = await supabase
         .from("Bookmarker")
         .upsert({
           email: email,
           name: name,
-          bookmarks: bookmark
+          bookmarks: []
         });
   
       if (error) throw error;

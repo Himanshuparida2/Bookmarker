@@ -30,7 +30,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "hooks/userContext.js", "hooks/userContext.js"  ],
   "exclude": [
     "node_modules"
   ]
