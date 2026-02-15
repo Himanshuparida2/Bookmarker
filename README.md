@@ -1,36 +1,212 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🔖 SmartBookmarks — Modern Bookmark Manager
 
-## Getting Started
+A fast, clean, and real-time bookmark manager built with **Next.js + Supabase**.
+Save, organize, and access your favorite links from anywhere — with multi-tab synchronization and Google authentication.
 
-First, run the development server:
+---
+
+## 🚀 Live Features
+
+* 🔐 Google Authentication (OAuth)
+* ☁️ Cloud-stored bookmarks using Supabase
+* ⚡ Real-time multi-tab sync (BroadcastChannel)
+* 🔎 Instant search across bookmarks
+* 🗑️ Add / delete bookmarks
+* 🎨 Modern responsive UI
+* 🌐 Favicon preview for each link
+* ⏱️ Relative time display (e.g., “2 hours ago”)
+
+---
+
+## 🧱 Tech Stack
+
+**Frontend**
+
+* Next.js (App Router)
+* React
+* Tailwind CSS
+* shadcn/ui + Radix UI
+* React Hook Form + Zod
+
+**Backend / Services**
+
+* Supabase (PostgreSQL + Auth)
+* Google OAuth
+
+**State & Sync**
+
+* React Context API
+* BroadcastChannel API (cross-tab sync)
+* LocalStorage (persistence)
+
+---
+
+## 📸 Overview
+
+SmartBookmarks lets users maintain a personal collection of links that stay synchronized across browser tabs and sessions.
+
+---
+
+## 🛠️ Getting Started
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/your-username/smartbookmarks.git
+cd smartbookmarks
+```
+
+---
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 3️⃣ Configure environment variables
+
+Create a `.env.local` file:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_key
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
+---
+
+### 4️⃣ Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit:
+👉 [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧪 Build for production
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧠 Project Journey & Challenges
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project was not straightforward — it evolved significantly during development.
 
-## Deploy on Vercel
+### 🔄 Database Choice Pivot
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Initially, the backend was designed around **AWS DynamoDB**.
+However, after carefully reviewing the project requirements, it became clear that a different solution would better fit the needs.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The project was migrated to **Supabase**, which provided:
+
+* Structured relational storage (PostgreSQL)
+* Built-in authentication
+* Easier client integration
+* Real-time capabilities
+* Simpler deployment workflow
+
+This migration required rewriting database logic and adapting data models.
+
+---
+
+### 🧩 Multi-Tab Synchronization Challenge
+
+One of the hardest problems was keeping bookmarks synchronized across multiple browser tabs.
+
+Early attempts led to issues such as:
+
+* Tabs showing outdated data
+* Race conditions between updates
+* Inconsistent UI states
+
+The final solution combined:
+
+* React state management
+* LocalStorage persistence
+* BroadcastChannel API for instant cross-tab messaging
+
+This approach ensures that changes in one tab immediately appear in others without refresh.
+
+---
+
+### 🔐 Authentication
+
+Google OAuth integration was relatively smooth, as prior experience with OAuth flows helped streamline the setup.
+
+Supabase Auth simplified:
+
+* Token handling
+* Session management
+* User identity storage
+
+---
+
+### ⚠️ Lessons Learned
+
+This project highlighted several real-world development insights:
+
+* Choosing the right database early matters
+* Sync problems are harder than they appear
+* State management across tabs requires explicit communication
+* Cloud services reduce backend complexity but introduce configuration challenges
+* Reading requirements carefully can prevent major rewrites
+
+---
+
+## 📂 Project Structure (Simplified)
+
+```
+src/
+ ├── app/                 # Next.js routes
+ ├── components/          # UI components
+ ├── hooks/               # Custom hooks & context
+ ├── backend/             # Database functions
+ ├── Broadcast/           # Cross-tab sync utilities
+ └── styles/
+```
+
+---
+
+## 🧩 Future Improvements
+
+Potential enhancements:
+
+* 📁 Folder / tag organization
+* ⭐ Favorites / pinning
+* 🔄 True cross-device real-time sync
+* 📤 Import / export bookmarks
+* 🧠 AI-based categorization
+* 📱 Progressive Web App (PWA)
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and suggestions are welcome.
+
+---
+
+## 📄 License
+
+MIT License
+
+---
+
+## 👤 Author
+
+**Himanshu Sekhar Parida**
+B.Tech CSE | Full-Stack Developer | Cloud Enthusiast
+
+---
+
+⭐ If you found this project interesting, consider giving it a star!
