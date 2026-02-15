@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "../../components/ui/button";
 import { ArrowRight, Bookmark, CheckCircle2 } from "lucide-react";
 
@@ -31,6 +32,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 mb-16 animate-enter" style={{ animationDelay: "300ms" }}>
                 <Button
                   size="lg" 
+                  onClick={() => window.location.href = "/login"}
                   className="text-lg bg-blue-600 text-white px-8 py-6 rounded-2xl shadow-xl shadow-blue-600/20 hover:shadow-2xl hover:shadow-blue-600/30 transition-all duration-300 transform hover:-translate-y-1 hover:cursor-pointer"
                 >
                   Get Started

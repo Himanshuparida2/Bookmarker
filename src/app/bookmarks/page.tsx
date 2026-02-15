@@ -20,7 +20,7 @@ function bookmarks() {
     <div>
       <input type="text" name='bookmark-input' ref={bookmarkref} className='border'/>
       <input type="button" value="add bookmark" className='border-2 hover:cursor-pointer' onClick={() => updateBookmarks(bookmarkref.current.value)} />
-      <input type="button" value="fetch" className='border' onClick={()=>{CreateUser("himanshu123@gmail.com","himanshu",[])}} />
+      <input type="button" value="fetch" className='border' onClick={()=>{CreateUser("himanshu123@gmail.com","himanshu")}} />
       <p>{response}</p>
     </div>
   )

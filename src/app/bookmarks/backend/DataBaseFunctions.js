@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { set } from "date-fns";
 
 const Supa_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const Supa_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
@@ -22,7 +23,7 @@ const fetchItm = async (email) => {
 
     if (error) throw error;
 
-    console.log(data);
+    //console.log(data);
     return data;
 
   } catch (err) {
@@ -30,24 +31,24 @@ const fetchItm = async (email) => {
   }
 };
 
-  const updateBookmarks = async (email,bookmark) => {
-    try {
-      const { data, error } = await supabase
-        .from("Bookmarker")
-        .update({
-          bookmarks: bookmark
-        })
-        .eq("email", email);
-  
-      if (error) throw error;
-  
-      console.log(data);
-      return data;
-  
-    } catch (err) {
-      console.error("Error updating data:", err);
-    }
+const updateBookmarks = async (email, bookmark) => {
+  try {
+    const { data, error } = await supabase
+      .from("Bookmarker")
+      .update({ bookmarks: bookmark })
+      .eq("email", email)
+      .select();
+
+    if (error) throw error;
+
+    console.log("Updated:", data);
+    return data;
+
+  } catch (err) {
+    console.error("Error updating data:", err);
   }
+};
+
 
   const deleteUser = async (email) => {
     try {
@@ -85,21 +86,24 @@ const fetchItm = async (email) => {
   };
 
   const CreateUser = async (email,name) => {
-    if(checkUserExists(email)) {
+    if(await checkUserExists(email)) {
       console.log("User already exists");
       return fetchItm(email);
     }
     try {
       const { data, error } = await supabase
         .from("Bookmarker")
-        .upsert({
+        .insert({
           email: email,
           name: name,
           bookmarks: []
         });
   
-      if (error) throw error;
-  
+      if (error){
+        console.log("Error creating user:", error);
+        throw error;
+      }
+      
       console.log(data);
       return data;
   
