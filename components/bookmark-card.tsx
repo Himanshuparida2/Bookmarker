@@ -1,7 +1,7 @@
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Trash2, ExternalLink, Globe } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { broadcastBookmarks } from "../Broadcast/broadcast";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,7 @@ interface BookmarkCardProps {
 }
 
 export function BookmarkCard({ bookmark }: BookmarkCardProps) {
-  const { bookmarks, setBookmarks, user } = useUser();
+  const { bookmarks, setBookmarks, user, setUser } = useUser();
   const [imgError, setImgError] = useState(false);
 
   const deleteBookmark = async (bookmark: Bookmark) => {
@@ -35,13 +35,14 @@ export function BookmarkCard({ bookmark }: BookmarkCardProps) {
 
     const updated = bookmarks.filter((b) => b.url !== bookmark.url);
     setBookmarks(updated);
-    updateBookmarks(user.email, updated);
-
+    
     try {
       await updateBookmarks(user.email, updated);
+      await setUser({ ...user, bookmarks: updated });
+      broadcastBookmarks(updated);
     } catch (error) {
       console.error("Failed to update bookmarks:", error);
-      setBookmarks(bookmarks); // rollback
+      setBookmarks(bookmarks);
     }
   };
 
@@ -95,9 +96,9 @@ export function BookmarkCard({ bookmark }: BookmarkCardProps) {
         {/* Bottom */}
         <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/40">
 
-          {/* Time */}
-          <span className="text-xs text-muted-foreground">
-            {bookmark.url}
+          {/* URL */}
+          <span className="text-xs text-muted-foreground hover:cursor-pointer" onClick={() => window.open(bookmark.url)}>
+            {bookmark.url.length<30?bookmark.url:bookmark.url.slice(0, 30) + '...'}
           </span>
 
           {/* Actions */}

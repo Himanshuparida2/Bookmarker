@@ -20,10 +20,10 @@ export default function LoginPage() {
 
   // Redirect to dashboard if user exists
   useEffect(() => {
-    console.log("User:", user);
     if (!isLoading && user) {
       router.push("/dashboard");
     }
+    if(user)setBookmarks(user.bookmarks)
   }, [user, isLoading]);
 
   const handleLogin = async (credentialResponse: any) => {
@@ -36,8 +36,7 @@ export default function LoginPage() {
       };
       // Create user if it doesn't exist and fetch data
       setUser(await CreateUser(GoogleUser.email, GoogleUser.name));
-      setBookmarks(user.bookmarks)
-      setAuth(true);
+        setAuth(true);
       const storedUser = localStorage.getItem("user");
       if(!Auth && !storedUser){
       setIsLoading(false)

@@ -29,6 +29,7 @@ import { Plus, Loader2 } from "lucide-react";
 import { z } from "zod";
 
 import { updateBookmarks } from "../src/app/bookmarks/backend/DataBaseFunctions";
+import { broadcastBookmarks } from "../Broadcast/broadcast";
 
 
 // ===== Schema =====
@@ -47,7 +48,7 @@ export function CreateBookmarkDialog() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { user, bookmarks, setBookmarks } = useUser();
+  const { user, bookmarks, setBookmarks, setUser } = useUser();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -68,6 +69,8 @@ export function CreateBookmarkDialog() {
       const newBookmarks = [...(bookmarks || []), data];
 
       await updateBookmarks(user.email, newBookmarks);
+      setUser({ ...user, bookmarks: newBookmarks });
+      broadcastBookmarks(newBookmarks);
 
       // Functional update prevents stale state bugs
       setBookmarks((prev) => [...(prev || []), data]);
@@ -89,7 +92,7 @@ export function CreateBookmarkDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       
       <DialogTrigger asChild>
-        <Button className="shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300">
+        <Button className="shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 hover:cursor-pointer">
           <Plus className="w-4 h-4 mr-2" />
           Add Bookmark
         </Button>
