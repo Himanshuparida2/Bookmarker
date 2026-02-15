@@ -143,12 +143,6 @@ This approach ensures that changes in one tab immediately appear in others witho
 
 Google OAuth integration was relatively smooth, as prior experience with OAuth flows helped streamline the setup.
 
-Supabase Auth simplified:
-
-* Token handling
-* Session management
-* User identity storage
-
 ---
 
 ### ⚠️ Lessons Learned
@@ -193,12 +187,6 @@ Potential enhancements:
 ## 🤝 Contributing
 
 Contributions, issues, and suggestions are welcome.
-
----
-
-## 📄 License
-
-MIT License
 
 ---
 
