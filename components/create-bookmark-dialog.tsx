@@ -28,7 +28,7 @@ import { Button } from "../components/ui/button";
 import { Plus, Loader2 } from "lucide-react";
 import { z } from "zod";
 
-import { updateBookmarks } from "../src/app/bookmarks/backend/DataBaseFunctions";
+import { updateBookmarks } from "../backend/DataBaseFunctions";
 import { broadcastBookmarks } from "../Broadcast/broadcast";
 
 
@@ -65,6 +65,26 @@ export function CreateBookmarkDialog() {
 
     try {
       setLoading(true);
+      const normalize = (url: string) => {
+        try {
+          const u = new URL(url);
+          return u.hostname.replace("www.", "") + u.pathname.replace(/\/$/, "");
+        } catch {
+          return url.trim().toLowerCase();
+        }
+      };
+  
+      const newUrl = normalize(data.url);
+  
+      const exists = (bookmarks || []).some(
+        (b) => normalize(b.url) === newUrl
+      );
+  
+      if (exists) {
+        alert("Bookmark already exists");
+        setLoading(false);
+        return;
+      }
 
       const newBookmarks = [...(bookmarks || []), data];
 

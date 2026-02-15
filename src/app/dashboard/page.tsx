@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { broadcastBookmarks } from "../../../Broadcast/broadcast";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -76,6 +77,7 @@ export default function Dashboard() {
     localStorage.removeItem("user");
     setAuth(false);
     window.location.href = "/login";
+    broadcastBookmarks([]);
   };
 
   if (isLoading) {

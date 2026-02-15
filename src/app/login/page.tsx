@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { fetchItm, CreateUser } from "../bookmarks/backend/DataBaseFunctions";
+import { fetchItm, CreateUser } from "../../../backend/DataBaseFunctions";
 import { useUser } from "../../../hooks/userContext";
 import { useRouter } from "next/navigation";
 

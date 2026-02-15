@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
-import { updateBookmarks } from "../src/app/bookmarks/backend/DataBaseFunctions";
+import { updateBookmarks } from "../backend/DataBaseFunctions";
 import { useUser } from "../hooks/userContext";
 import { useState } from "react";
 
